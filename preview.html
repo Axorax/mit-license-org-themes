@@ -12,7 +12,7 @@
       <img id="gravatar" src="https://gravatar.com/avatar/aa382c42f5deca1f28ddda0b274e998a" />
       <h1>The MIT License (MIT)</h1>
       <p>Copyright © <span class="time"></span>
-        <a href="#">Axorax</a> &lt; <a href="mailto:axoraxmail@gmail.com">axoraxmail@gmail.com</a>&gt;
+        <a href="#">Axorax</a> &lt;<a href="#mail">axoraxmail@gmail.com</a>&gt;
       </p>
       <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
       <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
@@ -20,7 +20,7 @@
     </article>
     <footer>
       <p>
-        <a href="https://github.com/remy/mit-license">Fork this project to create your own MIT license that you can always link to.</a>
+        <a href="#fork">Fork this project to create your own MIT license that you can always link to.</a>
       </p>
     </footer>
     <script>
@@ -33,7 +33,7 @@ const iscTemp = `
         <p>Copyright © 
             <span class="time"></span>
             <a href="#">Axorax</a> &lt;
-            <a href="mailto:axoraxmail@gmail.com">axoraxmail@gmail.com</a>&gt;
+            <a href="#mail">axoraxmail@gmail.com</a>&gt;
         </p>
         <p>Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -48,7 +48,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.</p>
     </article>
     <footer>
         <p>
-            <a target="_blank" rel="noopener" href="https://github.com/remy/mit-license">Fork this project to create your own
+            <a target="_blank" rel="noopener" href="#fork">Fork this project to create your own
 MIT license that you can always link to.</a>
         </p>
     </footer>`
@@ -86,19 +86,17 @@ if (params.get('theme')) {
                         <br>
                             <br>
                                 <p style="font-size:16px;">Information {
-                                    <br>
+<br>
             &emsp;Responded with status: ${request.status}
-                                        <br>
+<br>
             &emsp;Status Text: ${request.statusText}
-                                            <br>
+<br>
             &emsp;Headers Received: ${request.HEADERS_RECEIVED}
 
-                                                <br>}
-
-                                                </p>
-            ${donateTemplate}
-
-                                            </h1>
+<br>}
+</p>
+${donateTemplate}
+</h1>
             `
         }
     }
@@ -132,19 +130,19 @@ if (params.get('theme')) {
     document.body.style.cssText = `background:#121212;font-family:sans-serif;padding:1rem 2rem;`
     document.body.innerHTML = `
 
-                                    <h1 style="color:#fff;font-size:1.7rem!important;">Preview a theme by going to the url:
-                                        <br>
-                                            <p style="color:#6D67E4;">'https://axorax.github.io/remy-mit-license-themes/preview?theme=&lt;theme-name&gt;'</p>
-                                            <br>
+<h1 style="color:#fff;font-size:1.7rem!important;">Preview a theme by going to the url:
+<br>
+<p style="color:#6D67E4;">'https://axorax.github.io/mit-license-org-themes/preview?theme=&lt;theme-name&gt;'</p>
+<br>
     Remove avatar like this:
-                                                <br>
-                                                    <p style="color:#6D67E4;">'https://axorax.github.io/remy-mit-license-themes/preview?theme=&lt;theme-name&gt;&&avatar=false'</p>
+<br>
+    <p style="color:#6D67E4;">'https://axorax.github.io/mit-license-org-themes/preview?theme=&lt;theme-name&gt;&&avatar=false'</p>
     For themes outside of this repository use:
 
-                                                    <p style="color:#6D67E4;">'https://axorax.github.io/remy-mit-license-themes/preview?theme=&lt;theme-url like https://...&gt;&&external=true'</p>
+    <p style="color:#6D67E4;">'https://axorax.github.io/mit-license-org-themes/preview?theme=&lt;theme-url like https://...&gt;&&external=true'</p>
     ${donateTemplate}
 
-                                                </h1>
+</h1>
     `
 }
     </script>
