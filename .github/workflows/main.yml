@@ -18,7 +18,8 @@ jobs:
           mkdir -p output
           themes_list=$(ls themes | sed 's/\..*$//' | jq -R . | jq -s .)
           echo $themes_list | jq . --indent 4 > list.json
-          echo -e "# Themes\n\n$(ls themes | sed 's/\..*$/' | sed 's/^/- &/')" > themes.md
+          echo "# Themes" > themes.md
+          ls themes | sed 's/\..*$/' | sed 's/^/- /' >> themes.md
 
       - name: Commit and push changes
         run: |
