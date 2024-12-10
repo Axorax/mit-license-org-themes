@@ -1,4 +1,4 @@
-name: Update Themes List
+name: Automated task
 
 on:
   push:
@@ -13,64 +13,43 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Generate JSON file
+      - name: Generate JSON and Markdown files
         run: |
           mkdir -p output
           themes_list=$(ls themes | sed 's/\..*$//' | jq -R . | jq -s .)
           echo $themes_list | jq . --indent 4 > list.json
+          echo -e "# Themes\n\n$(ls themes | sed 's/\..*$/' | sed 's/^/- /')" > themes.md
 
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add list.json
-          git commit -m "update: list" || echo "No changes to commit"
+          git add list.json themes.md
+          git commit -m "update: list and themes markdown" || echo "No changes to commit"
           git push
 
       - name: Delete all GitHub Pages deployments
         run: |
           GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
           REPO_NAME=${{ github.repository }}
-          
-          # Pagination handling
           page=1
           total_deleted=0
-          
           while : ; do
-            # Fetch deployments for the current page
-            deployments=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-              "https://api.github.com/repos/$REPO_NAME/deployments?per_page=100&page=$page")
-            
-            # Check if we got deployments
+            deployments=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/$REPO_NAME/deployments?per_page=100&page=$page")
             deployment_count=$(echo "$deployments" | jq 'length')
-            
             if [ "$deployment_count" -eq 0 ]; then
-              echo "No more deployments found."
               break
             fi
-            
-            # Loop through deployments and delete them
-            echo "Found $deployment_count deployments on page $page. Deleting all deployments..."
             for deployment in $(echo "$deployments" | jq -r '.[].id'); do
-              echo "Deleting deployment ID: $deployment"
-              delete_response=$(curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
-                "https://api.github.com/repos/$REPO_NAME/deployments/$deployment")
-              echo "Delete response: $delete_response"
+              curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/$REPO_NAME/deployments/$deployment"
               total_deleted=$((total_deleted + 1))
             done
-            
-            # Increment page number to fetch next set of deployments
             page=$((page + 1))
-          
           done
-
-          # Output the total number of deleted deployments
           echo "Total deployments deleted: $total_deleted"
 
       - name: Clean up GitHub Pages settings
         run: |
           GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
           REPO_NAME=${{ github.repository }}
-          curl -X PATCH -H "Authorization: token $GITHUB_TOKEN" \
-            -d '{"source": null}' \
-            "https://api.github.com/repos/$REPO_NAME/pages"
+          curl -X PATCH -H "Authorization: token $GITHUB_TOKEN" -d '{"source": null}' "https://api.github.com/repos/$REPO_NAME/pages"
