@@ -16,10 +16,10 @@ jobs:
       - name: Generate JSON and Markdown files
         run: |
           mkdir -p output
-          themes_list=$(ls themes | sed 's/\..*$//' | jq -R . | jq -s .)
+          themes_list=$(find themes -type f -exec basename {} \; | sed 's/\..*$/' | jq -R . | jq -s .)
           echo $themes_list | jq . --indent 4 > list.json
           echo "# Themes" > themes.md
-          ls themes | sed 's/\..*$/' | sed 's/^/- /' >> themes.md
+          find themes -type f -exec basename {} \; | sed 's/\..*$/' | sed 's/^/- /' >> themes.md
 
       - name: Commit and push changes
         run: |
