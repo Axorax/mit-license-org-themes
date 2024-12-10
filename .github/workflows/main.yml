@@ -18,14 +18,14 @@ jobs:
           mkdir -p output
           themes_list=$(ls themes | sed 's/\..*$//' | jq -R . | jq -s .)
           echo $themes_list | jq . --indent 4 > list.json
-          echo -e "# Themes\n\n$(ls themes | sed 's/\..*$/' | sed 's/^/- /')" > themes.md
+          echo -e "# Themes\n\n$(ls themes | sed 's/\..*$/' | sed 's/^/- &/')" > themes.md
 
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add list.json themes.md
-          git commit -m "update: list and themes markdown" || echo "No changes to commit"
+          git commit -m "update: list" || echo "No changes to commit"
           git push
 
       - name: Delete all GitHub Pages deployments
